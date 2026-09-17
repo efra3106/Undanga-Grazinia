@@ -1,0 +1,765 @@
+/* ==========================================================================
+   BIRTHDAY MOTION LILAC — Grazinia Tifani Angkol
+   Self-contained stylesheet (no WordPress/Elementor plugin CSS required)
+   ========================================================================== */
+
+:root {
+  --lilac-50: #f8f4ff;
+  --lilac-100: #efe3ff;
+  --lilac-200: #ddc9f7;
+  --lilac-400: #b083e0;
+  --lilac-600: #8a4fc9;
+  --lilac-700: #6f3aa8;
+  --ink: #3c2a52;
+  --ink-soft: #6a5a80;
+  --white: #ffffff;
+  --shadow: 0 12px 30px rgba(111, 58, 168, 0.18);
+  --radius: 18px;
+  --max-width: 480px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--lilac-50), var(--lilac-100) 40%, var(--lilac-50));
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.locked {
+  overflow: hidden;
+  height: 100vh;
+}
+
+img { max-width: 100%; display: block; }
+
+.signature {
+  font-family: 'Gwendolyn', cursive;
+  font-weight: 700;
+  color: var(--lilac-700);
+  font-size: 3.4rem;
+  line-height: 1.15;
+  margin: 0.15em 0;
+  text-shadow: 0 2px 12px rgba(111, 58, 168, 0.25);
+}
+.signature.small { font-size: 2.4rem; }
+
+.section-title {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  color: var(--lilac-700);
+  font-size: 1.85rem;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.35em;
+}
+
+.section-subtitle,
+.section-subtitle-alt {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0 0 1.2em;
+}
+
+.section-subtitle-alt {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: var(--lilac-600);
+}
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.75em 1.6em;
+  border-radius: 999px;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--lilac-400), var(--lilac-700));
+  color: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.btn-outline {
+  background: var(--white);
+  color: var(--lilac-700);
+  border: 1.5px solid var(--lilac-200);
+}
+
+/* ---------------- Splash / Cover screen ---------------- */
+.splash {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: radial-gradient(circle at top, var(--lilac-100), var(--lilac-50) 70%);
+  padding: 2rem 1.5rem;
+}
+
+.splash-inner {
+  max-width: var(--max-width);
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.splash-illustration {
+  width: min(70%, 260px);
+  margin: 0 auto 1rem;
+  animation: float 6s ease-in-out infinite;
+}
+
+.eyebrow {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--lilac-600);
+  margin: 0;
+}
+
+.dear {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  margin: 1.2em 0 0.2em;
+  color: var(--ink-soft);
+}
+.guest-name {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--lilac-700);
+  margin: 0 0 1.6em;
+}
+
+.petals { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.petals span {
+  position: absolute;
+  font-size: 1.4rem;
+  color: var(--lilac-400);
+  opacity: 0.6;
+  animation: drift 12s linear infinite;
+}
+.petals span:nth-child(1) { left: 8%;  top: -10%; animation-delay: 0s; }
+.petals span:nth-child(2) { left: 22%; top: -20%; animation-delay: 2s; font-size: 1rem; }
+.petals span:nth-child(3) { left: 45%; top: -15%; animation-delay: 4s; }
+.petals span:nth-child(4) { left: 65%; top: -25%; animation-delay: 1s; font-size: 1.1rem; }
+.petals span:nth-child(5) { left: 80%; top: -10%; animation-delay: 3s; }
+.petals span:nth-child(6) { left: 92%; top: -20%; animation-delay: 5s; font-size: 0.9rem; }
+
+@keyframes drift {
+  0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.6; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ---------------- Main content wrapper ---------------- */
+.main-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+/* ---------------- Cover video ---------------- */
+.video-section { line-height: 0; }
+.cover-video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; }
+
+/* ---------------- Generic section ---------------- */
+.section {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.section.in-view { opacity: 1; transform: translateY(0); }
+
+.greeting-text { font-weight: 500; font-size: 1.1rem; line-height: 1.65; margin-bottom: 1.2rem; }
+.greeting-image { width: 60%; margin: 0 auto 1rem; }
+.flourish { color: var(--lilac-400); font-size: 1.5rem; margin-top: 0.5rem; }
+
+/* ---------------- Save the date ---------------- */
+/* =========================================================
+   SAVE THE DATE
+   LILAC GLASS ARCH FRAME
+   ========================================================= */
+
+.acara {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* ---------------------------------------------------------
+   FAIRY / ORNAMENT
+   --------------------------------------------------------- */
+
+.acara .fairy-image {
+  width: 55%;
+  margin: 0 auto 1rem;
+  position: relative;
+  z-index: 5;
+}
+
+
+/* ---------------------------------------------------------
+   TITLE
+   --------------------------------------------------------- */
+
+.acara .section-title {
+  position: relative;
+  z-index: 6;
+
+  margin: 0 0 1.2rem;
+
+  color: var(--lilac-700);
+}
+
+
+/* =========================================================
+   ARCH FRAME
+   ========================================================= */
+
+.event-arch-frame {
+  position: relative;
+
+  width: 100%;
+  max-width: 430px;
+
+  margin: 0 auto;
+
+  /*
+     Bagian atas dibuat tinggi supaya membentuk arch
+  */
+  padding: 95px 20px 28px;
+
+  /*
+     GLASS LILAC
+  */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(220, 198, 242, 0.62),
+      rgba(197, 164, 229, 0.48)
+    );
+
+  /*
+     Efek kaca
+  */
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+
+  /*
+     ARCH
+     
+     50% 100px
+     = bagian atas melengkung
+  */
+  border-radius: 215px 215px 45px 45px;
+
+  /*
+     GARIS PUTIH LUAR
+  */
+  border: 2px solid rgba(255, 255, 255, 0.92);
+
+  /*
+     Shadow lembut
+  */
+  box-shadow:
+    0 12px 35px rgba(111, 58, 168, 0.18),
+    inset 0 0 30px rgba(255, 255, 255, 0.14);
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   DOUBLE BORDER / GARIS DALAM
+   ========================================================= */
+
+.event-arch-frame::before {
+  content: "";
+
+  position: absolute;
+
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+
+  border: 1.5px solid rgba(255, 255, 255, 0.78);
+
+  border-radius: 207px 207px 37px 37px;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+
+/* =========================================================
+   HIGHLIGHT BAGIAN ATAS ARCH
+   ========================================================= */
+
+.event-arch-frame::after {
+  content: "";
+
+  position: absolute;
+
+  top: 25px;
+  left: 18%;
+  right: 18%;
+
+  height: 2px;
+
+  background: rgba(255, 255, 255, 0.65);
+
+  border-radius: 50%;
+
+  filter: blur(0.5px);
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+
+/* ---------------------------------------------------------
+   CONTENT
+   --------------------------------------------------------- */
+
+.event-arch-content {
+  position: relative;
+  z-index: 4;
+}
+
+
+/* =========================================================
+   COUNTDOWN
+   ========================================================= */
+
+.event-arch-frame .countdown {
+  list-style: none;
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 0.55rem;
+
+  padding: 0;
+
+  margin: 0 0 1.5rem;
+
+  flex-wrap: nowrap;
+}
+
+
+.event-arch-frame .countdown li {
+  min-width: 62px;
+
+  padding: 0.65rem 0.35rem;
+
+  /*
+     Kotak countdown juga dibuat glass
+  */
+  background: rgba(255, 255, 255, 0.28);
+
+  border: 1px solid rgba(255, 255, 255, 0.58);
+
+  border-radius: 15px;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  box-shadow:
+    0 4px 12px rgba(111, 58, 168, 0.08);
+}
+
+
+.event-arch-frame .countdown-num {
+  font-family: 'Fredoka', sans-serif;
+
+  font-size: 1.5rem;
+
+  font-weight: 700;
+
+  color: var(--lilac-700);
+}
+
+
+.event-arch-frame .countdown-label {
+  font-size: 0.68rem;
+
+  font-weight: 600;
+
+  color: var(--ink-soft);
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.event-arch-frame .btn {
+  margin: 0.35rem;
+
+  position: relative;
+  z-index: 5;
+
+  background: rgba(255, 255, 255, 0.50);
+
+  color: var(--lilac-700);
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+
+  box-shadow:
+    0 5px 15px rgba(111, 58, 168, 0.10);
+}
+
+
+/* =========================================================
+   EVENT DETAILS
+   ========================================================= */
+
+.event-arch-frame .event-details {
+  list-style: none;
+
+  padding: 0;
+
+  margin: 1.5rem 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.65rem;
+
+  font-weight: 500;
+
+  font-size: 0.92rem;
+}
+
+
+.event-arch-frame .event-details li {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 0.6em;
+}
+
+
+.event-arch-frame .event-details i {
+  color: var(--lilac-700);
+}
+
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.event-arch-frame .map-embed {
+  margin: 1.2rem 0;
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  border: 2px solid rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    0 8px 20px rgba(111, 58, 168, 0.15);
+}
+
+
+.event-arch-frame .map-embed iframe {
+  width: 100%;
+
+  height: 210px;
+
+  border: 0;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .event-arch-frame {
+
+    padding:
+      75px
+      14px
+      25px;
+
+    border-radius:
+      180px
+      180px
+      38px
+      38px;
+  }
+
+
+  .event-arch-frame::before {
+
+    border-radius:
+      172px
+      172px
+      30px
+      30px;
+  }
+
+
+  .event-arch-frame .countdown {
+
+    gap: 0.3rem;
+  }
+
+
+  .event-arch-frame .countdown li {
+
+    min-width: 55px;
+
+    padding:
+      0.55rem
+      0.2rem;
+  }
+
+
+  .event-arch-frame .countdown-num {
+
+    font-size: 1.3rem;
+  }
+
+
+  .event-arch-frame .countdown-label {
+
+    font-size: 0.62rem;
+  }
+}
+
+/* ---------------- RSVP ---------------- */
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+  margin-top: 1rem;
+}
+.rsvp-form label { font-size: 0.85rem; color: var(--ink-soft); }
+.rsvp-form input[type="text"] {
+  width: 100%;
+  padding: 0.75em 1em;
+  border-radius: 10px;
+  border: 1.5px solid var(--lilac-200);
+  font-family: inherit;
+  font-size: 1rem;
+}
+.rsvp-options { border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.rsvp-options legend { font-size: 0.85rem; color: var(--ink-soft); padding: 0; margin-bottom: 0.3rem; }
+.radio-option { display: flex; align-items: center; gap: 0.6em; font-size: 0.95rem; }
+
+/* ---------------- Gift ---------------- */
+.gift-cards { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1rem; }
+.gift-card {
+  background: var(--lilac-50);
+  border: 1px solid var(--lilac-200);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+}
+.gift-card img { width: 90px; margin: 0 auto 0.6rem; }
+.gift-name { font-family: 'Fredoka', sans-serif; font-weight: 500; color: var(--ink-soft); }
+.gift-number { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; font-weight: 600; color: var(--lilac-700); margin: 0.3rem 0 0.8rem; letter-spacing: 0.05em; }
+
+/* ---------------- Verse ---------------- */
+.flower-image { width: 55%; margin: 0 auto 1rem; }
+.verse-text { font-family: 'Nunito', sans-serif; font-weight: 500; font-style: italic; font-size: 1.15rem; line-height: 1.75; color: var(--ink); }
+.video-embed { margin-top: 1.5rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 16/9; }
+.video-embed iframe { width: 100%; height: 100%; border: 0; }
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery {
+  position: relative;
+  overflow: visible;
+}
+
+/* Gambar bunga sebagai bingkai */
+.gallery-cover {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: calc(100% + 3rem);
+  max-width: none;
+
+  margin: 0;
+  border-radius: 0;
+
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Judul Gallery masuk ke area kosong bunga */
+.gallery .section-title {
+  position: relative;
+  z-index: 3;
+
+  margin-top: 50px;
+  margin-bottom: 15px;
+}
+
+/* Foto Gallery */
+.gallery-grid {
+  position: relative;
+  z-index: 3;
+
+  columns: 2;
+  column-gap: 6px;
+
+  margin-top: 0;
+}
+
+.gallery-grid img {
+  width: 100%;
+  margin-bottom: 6px;
+
+  border-radius: 8px;
+
+  break-inside: avoid;
+
+  cursor: zoom-in;
+
+  transition: transform 0.2s ease;
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.02);
+}
+
+/* ---------------- Wishes ---------------- */
+.wishes-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: left;
+  margin-top: 1rem;
+}
+.wishes-form input,
+.wishes-form select,
+.wishes-form textarea {
+  width: 100%;
+  padding: 0.75em 1em;
+  border-radius: 10px;
+  border: 1.5px solid var(--lilac-200);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.wishes-list { list-style: none; padding: 0; margin: 1.5rem 0; text-align: left; display: flex; flex-direction: column; gap: 0.8rem; }
+.wishes-list li {
+  background: var(--lilac-50);
+  border: 1px solid var(--lilac-200);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+}
+.wishes-list .wish-name { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--lilac-700); }
+.wishes-list .wish-status { font-size: 0.75rem; font-weight: 500; color: var(--ink-soft); margin-left: 0.4em; }
+.wishes-list .wish-message { margin: 0.3rem 0 0; font-size: 0.9rem; }
+.wishes-empty { color: var(--ink-soft); font-size: 0.9rem; text-align: center; }
+
+.thanks-text { margin: 0.3rem 0; color: var(--ink-soft); }
+
+/* ---------------- Footer ---------------- */
+.footer-section { padding-bottom: 1rem; }
+.footer-image { width: 40%; margin: 0 auto 0.6rem; }
+.footer-credit { font-family: 'Fredoka', sans-serif; font-weight: 500; font-size: 0.85rem; color: var(--ink-soft); margin: 0 0 0.6rem; }
+.social-icons { display: flex; justify-content: center; gap: 1rem; }
+.social-icons a {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--lilac-50);
+  border: 1px solid var(--lilac-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lilac-700);
+  text-decoration: none;
+}
+
+/* ---------------- Bottom nav ---------------- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-width);
+  background: var(--white);
+  box-shadow: 0 -6px 20px rgba(111, 58, 168, 0.15);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.7rem 0;
+  z-index: 50;
+}
+.bottom-nav a,
+.bottom-nav button {
+  color: var(--lilac-600);
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 380px) {
+  .signature { font-size: 2.4rem; }
+  .section { padding: 2.2rem 1.2rem; }
+}

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Grazinia Tifani Angkol</title>
+<meta name="description" content="5th Birthday Invitation - Grazinia Tifani Angkol. Minggu, 27 September 2026, 13.00 WITA di Kel. Angkol - Tampi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gwendolyn:wght@400;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ SPLASH / COVER SCREEN ============ -->
+<section id="splash" class="splash">
+  <div class="petals" aria-hidden="true">
+    <span>&#10047;</span><span>&#10047;</span><span>&#10047;</span><span>&#10047;</span><span>&#10047;</span><span>&#10047;</span>
+  </div>
+  <div class="splash-inner">
+    <img class="splash-illustration" src="images/elemen-birthday-MOTION-25.png" alt="Elemen Birthday Motion">
+    <p class="eyebrow">5th Birthday & Holy Baptism Invitation</p>
+    <h1 class="signature">Grazinia Tifani Angkol</h1>
+    <p class="dear">Dear,</p>
+    <p class="guest-name" id="guestName">Nama Tamu</p>
+    <button type="button" id="openInvitation" class="btn btn-primary">
+      <i class="fa-solid fa-envelope-open"></i> Buka Undangan
+    </button>
+  </div>
+</section>
+
+<div id="mainContent" class="main-content" hidden>
+
+  <!-- ============ COVER VIDEO ============ -->
+  <section id="cover" class="video-section">
+    <video class="cover-video" src="https://res.cloudinary.com/dlol090db/video/upload/v1783915156/UNGU_h1zjpo.mp4" autoplay loop muted playsinline controlslist="nodownload"></video>
+  </section>
+
+  <!-- ============ GREETING / MEMPELAI ============ -->
+  <section id="mempelai" class="section greeting reveal">
+    <p class="greeting-text">Salam Sejahtera.<br>Mensyukuri Berkat Tuhan dalam Kehidupan Keluarga. Kami Mengundang Bapak/Ibu. Saudara/Saudari Bersyukur atas Baptisan Dan Hari Ulang Tahun Yang Ke Lima Dari Anak Kami :</p>
+    <img class="greeting-image" src="images/elemen-birthday-MOTION-24.png" alt="Grazinia Tifani Angkol">
+    <h2 class="signature small">Grazinia Tifani Angkol</h2>
+    <div class="flourish" aria-hidden="true">&#10022;</div>
+  </section>
+
+  <!-- ============ SAVE THE DATE / ACARA ============ -->
+  <section id="acara" class="section acara reveal">
+
+    <img class="fairy-image" src="images/FAIRY-D.png" alt="">
+
+    <h1 class="section-title">Save The Date</h1>
+
+    <!-- ARCH GLASS FRAME -->
+    <div class="event-arch-frame">
+
+      <div class="event-arch-content">
+
+        <!-- COUNTDOWN -->
+        <ul class="countdown" id="countdown">
+          <li>
+            <div class="countdown-num" id="cd-days">00</div>
+            <div class="countdown-label">Hari</div>
+          </li>
+
+          <li>
+            <div class="countdown-num" id="cd-hours">00</div>
+            <div class="countdown-label">Jam</div>
+          </li>
+
+          <li>
+            <div class="countdown-num" id="cd-minutes">00</div>
+            <div class="countdown-label">Menit</div>
+          </li>
+
+          <li>
+            <div class="countdown-num" id="cd-seconds">00</div>
+            <div class="countdown-label">Detik</div>
+          </li>
+        </ul>
+
+
+        <!-- CALENDAR -->
+        <a id="calendarLink"
+          class="btn btn-outline"
+          target="_blank"
+          rel="nofollow">
+          <i class="fa-regular fa-calendar-plus"></i>
+          Simpan di Kalender
+        </a>
+
+
+        <!-- DETAIL ACARA -->
+        <ul class="event-details">
+
+          <li>
+            <i class="fa-regular fa-calendar-alt"></i>
+            Minggu, 27 September 2026
+          </li>
+
+          <li>
+            <i class="fa-regular fa-clock"></i>
+            13.00 WITA
+          </li>
+
+          <li>
+            <i class="fa-solid fa-map-marker-alt"></i>
+            Kel. Angkol - Tampi
+          </li>
+
+        </ul>
+
+
+        <!-- MAP -->
+        <div class="map-embed">
+          <iframe
+            loading="lazy"
+            frameborder="0"
+            scrolling="no"
+            src="https://maps.google.com/maps?q=1.328656,124.906042&t=m&z=16&output=embed"
+            title="Kel. Angkol - Tampi"
+            aria-label="Kel. Angkol - Tampi">
+          </iframe>
+        </div>
+
+
+        <!-- LOCATION BUTTON -->
+        <a href="https://maps.app.goo.gl/zVhnx2svaEUAZt5M6"
+          class="btn btn-outline"
+          target="_blank"
+          rel="noopener">
+          <i class="fa-solid fa-map-marker-alt"></i>
+          Kunjungi Lokasi
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+  <!-- ============ RSVP ============ -->
+  <section id="rsvp" class="section rsvp reveal">
+    <h2 class="section-title">RSVP</h2>
+    <p class="section-subtitle">Silahkan konfirmasi kehadiran anda dengan mengisi formulir di bawah ini.</p>
+
+    <form id="rsvpForm" class="rsvp-form">
+      <label for="rsvpName">Nama</label>
+      <input type="text" id="rsvpName" name="rsvpName" required placeholder="Nama Anda">
+
+      <fieldset class="rsvp-options">
+        <legend>Konfirmasi</legend>
+        <label class="radio-option">
+          <input type="radio" name="rsvpOption" value="Iya, Saya akan Datang" required> Iya, Saya akan Datang
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="rsvpOption" value="Maaf, Saya Tidak Bisa Datang" required> Maaf, Saya Tidak Bisa Datang
+        </label>
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-brands fa-whatsapp"></i> Reservasi via Whatsapp
+      </button>
+    </form>
+  </section>
+
+  <!-- ============ ONLINE GIFT ============ -->
+  <section id="gift" class="section gift reveal">
+    <h1 class="section-title">Online Gift</h1>
+    <p class="section-subtitle">HADIAH/ANGPAO BISA DIKIRIM KE REKENING DI BAWAH INI.</p>
+
+    <div class="gift-cards">
+      <div class="gift-card">
+        <img src="images/BCA-PNG.png" alt="BCA bank logo">
+        <div class="gift-name">Nama</div>
+        <div class="gift-number" data-copy="1234">1234</div>
+        <button type="button" class="btn btn-outline btn-copy" data-copy-btn>
+          <i class="fa-regular fa-copy"></i> <span>Salin</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VERSE + VIDEO ============ -->
+  <section class="section verse reveal">
+    <img class="flower-image" src="images/FLOWER-UNGU-PURPLE-LILAC-2.png" alt="">
+    <h2 class="verse-text">Matius 19:14<br><br><b>Tetapi Yesus berkata: “Biarkanlah anak-anak itu, janganlah menghalang-halangi mereka datang kepada-Ku; sebab orang-orang yang seperti itulah yang empunya Kerajaan Sorga.”"</b></h2>
+    <!-- <div class="video-embed">
+      <iframe loading="lazy" src="https://www.youtube.com/embed/c-XrdUnoNtg?controls=1&rel=0&playsinline=1&modestbranding=1" title="Fairy video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div> -->
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section id="galeri" class="section gallery reveal">
+    <img class="gallery-cover" src="images/IMG_5787.png" alt="">
+    <h1 class="section-title">Gallery</h1>
+    <div class="gallery-grid" id="galleryGrid">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-2.png" alt="Gallery 2" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-4.png" alt="Gallery 4" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-5.png" alt="Gallery 5" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-3.png" alt="Gallery 3" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-1.png" alt="Gallery 1" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-10.png" alt="Gallery 10" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-9.png" alt="Gallery 9" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-8.png" alt="Gallery 8" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-7.png" alt="Gallery 7" loading="lazy">
+      <img src="images/ELEMEN-BIRTHDAY-MOTION-6.png" alt="Gallery 6" loading="lazy">
+    </div>
+  </section>
+
+  <!-- ============ WISHES ============ -->
+  <section id="wishes" class="section wishes reveal">
+    <h1 class="section-title">Wishes</h1>
+    <h2 class="section-subtitle-alt">Berikan ucapan terbaik</h2>
+
+    <form id="wishesForm" class="wishes-form">
+      <input type="text" id="wishName" placeholder="Nama" required>
+      <select id="wishConfirm" required>
+        <option value="" disabled selected>Konfirmasi Kehadiran</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak hadir">Tidak hadir</option>
+      </select>
+      <textarea id="wishMessage" rows="3" placeholder="Wishes" required></textarea>
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-regular fa-paper-plane"></i> Send
+      </button>
+    </form>
+
+    <ul class="wishes-list" id="wishesList"></ul>
+
+    <p class="thanks-text">Atas kehadiranya kami ucapkan terimakasih.</p>
+    <p class="thanks-text">blessed parents,</p>
+    <p class="thanks-text signature small">Papa Ekel &amp; Mama Pretty</p>
+  </section>
+  <!-- ============ MUSIC / FOOTER ============ -->
+  <section class="section footer-section reveal">
+
+    <audio id="song" loop preload="auto">
+      <source src="./images/music.mp3" type="audio/mpeg">
+      Browser Anda tidak mendukung pemutar audio.
+    </audio>
+
+  </section>
+    <!-- <img class="footer-image" src="images/Elemen-web481.png" alt="">
+    <p class="footer-credit">Undangan Online EFRA</p>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/undanganonlinemanado" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://undanganonlinemanado.com/" target="_blank" rel="noopener" aria-label="Website"><i class="fa-solid fa-link"></i></a>
+      <a href="https://wa.me/6285000000" target="_blank" rel="noopener" aria-label="Whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+    </div> -->
+  </section>
+
+  <!-- ============ BOTTOM STICKY NAV ============ -->
+  <nav class="bottom-nav" aria-label="Navigasi undangan">
+    <a href="#splash"><i class="fa-solid fa-house"></i></a>
+    <a href="#mempelai"><i class="fa-regular fa-heart"></i></a>
+    <a href="#acara"><i class="fa-regular fa-calendar-alt"></i></a>
+    <a href="#galeri"><i class="fa-regular fa-images"></i></a>
+    <a href="#wishes"><i class="fa-regular fa-comment-dots"></i></a>
+    <button type="button" id="musicToggle" aria-label="Toggle music">
+      <i class="fa-solid fa-play" id="musicIcon"></i>
+    </button>
+  </nav>
+
+</div>
+
+<!-- Lightbox for gallery -->
+<div class="lightbox" id="lightbox">
+  <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
