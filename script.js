@@ -8,16 +8,11 @@
 // Event date: Minggu, 27 September 2026, 13:00 WITA (UTC+8)
 const EVENT_DATE = new Date('2026-09-27T13:00:00+08:00');
 
-// Fill in a real WhatsApp number (country code, no +/spaces, e.g. "6281234567890")
-// to send RSVP straight to it. Leave empty to let the guest pick a contact.
-const RSVP_WHATSAPP_NUMBER = '';
-
 document.addEventListener('DOMContentLoaded', () => {
   initGuestName();
   initOpenInvitation();
   initCountdown();
   initCalendarLink();
-  initRsvpForm();
   initGiftCopy();
   initGallery();
   initWishes();
@@ -111,26 +106,6 @@ function initCalendarLink() {
   link.href = `https://www.google.com/calendar/render?${params.toString()}`;
 }
 
-/* ---------------- RSVP via WhatsApp ---------------- */
-function initRsvpForm() {
-  const form = document.getElementById('rsvpForm');
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById('rsvpName').value.trim();
-    const option = form.querySelector('input[name="rsvpOption"]:checked');
-    if (!name || !option) return;
-
-    const message = `Hai, saya ${name} ingin konfirmasi kehadiran pada undangan digital bahwa ${option.value}. Terima kasih ya.`;
-    const base = RSVP_WHATSAPP_NUMBER
-      ? `https://wa.me/${RSVP_WHATSAPP_NUMBER}`
-      : 'https://api.whatsapp.com/send';
-
-    window.location.href = `${base}?text=${encodeURIComponent(message)}`;
-  });
-}
-
 /* ---------------- Gift: copy account number ---------------- */
 function initGiftCopy() {
   document.querySelectorAll('[data-copy-btn]').forEach((btn) => {
@@ -181,61 +156,252 @@ function initGallery() {
   });
 }
 
-/* ---------------- Wishes (stored locally in the guest's browser) ---------------- */
-const WISHES_KEY = 'zea-alika-wishes';
+/* ---------------- Wishes (Google Sheets via Google Apps Script) ---------------- */
+// Ganti dengan URL Web App hasil deploy Google Apps Script (lihat apps-script/Code.gs).
+const WISHES_API_URL = 'https://script.google.com/macros/s/AKfycbwjr19d0C15Kp3DMOtd1Lx5uVtdabUHHHXbGuvXAlN6WjrPekokblw10OX7_cnDNA/exec';
+
+const WISHES_POLL_MS = 12000; // refresh ringan setiap 12 detik saat section Wishes terlihat
+const WISHES_NAME_MIN_LENGTH = 2;
+const WISHES_NAME_MAX_LENGTH = 60;
+const WISHES_MESSAGE_MAX_LENGTH = 500;
+
+const WISHES_TIMEOUT_MS = 25000; // batas waktu satu request
+const WISHES_RETRY_COUNT = 2;    // coba ulang otomatis sebelum menampilkan error
+
+let wishesPollTimer = null;
+let wishesLoading = false;
 
 function initWishes() {
+  const section = document.getElementById('wishes');
   const form = document.getElementById('wishesForm');
   const list = document.getElementById('wishesList');
+  if (!section || !form || !list) return;
 
-  renderWishes(list);
+  loadWishes(list);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
-    const name = document.getElementById('wishName').value.trim();
-    const confirmValue = document.getElementById('wishConfirm').value;
-    const message = document.getElementById('wishMessage').value.trim();
-    if (!name || !confirmValue || !message) return;
-
-    const wishes = getWishes();
-    wishes.unshift({ name, confirmValue, message, date: Date.now() });
-    localStorage.setItem(WISHES_KEY, JSON.stringify(wishes));
-
-    form.reset();
-    renderWishes(list);
+    submitWish(form, list);
   });
+
+  // Refresh ringan hanya ketika section Wishes sedang terlihat di layar
+  // (observer terpisah dari sistem reveal/fade-in section, tidak konflik).
+  const pollObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        startWishesPolling(list);
+      } else {
+        stopWishesPolling();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  pollObserver.observe(section);
 }
 
-function getWishes() {
+function startWishesPolling(list) {
+  if (wishesPollTimer) return;
+  wishesPollTimer = setInterval(() => loadWishes(list, { silent: true }), WISHES_POLL_MS);
+}
+
+function stopWishesPolling() {
+  clearInterval(wishesPollTimer);
+  wishesPollTimer = null;
+}
+
+async function loadWishes(list, options = {}) {
+  // Google Apps Script bisa lambat (5-20 detik); jangan kirim request baru
+  // selama request sebelumnya belum selesai supaya tidak menumpuk.
+  if (wishesLoading) return;
+  wishesLoading = true;
+
+  const hasWishes = list.querySelector('li:not(.wishes-empty)') !== null;
+  if (!options.silent && !hasWishes) {
+    setWishesLoadingState(list);
+  }
+
   try {
-    return JSON.parse(localStorage.getItem(WISHES_KEY)) || [];
+    const data = await fetchWishesWithRetry();
+    renderWishes(list, sortWishesNewestFirst(data));
   } catch (err) {
-    return [];
+    console.error('Gagal memuat wishes:', err);
+    // Kalau ucapan sudah pernah tampil, biarkan saja daripada diganti pesan error.
+    if (!options.silent && !hasWishes) {
+      renderWishesError(list);
+    }
+  } finally {
+    wishesLoading = false;
   }
 }
 
-function renderWishes(list) {
-  const wishes = getWishes();
+async function fetchWishesWithRetry() {
+  let lastError;
 
-  if (wishes.length === 0) {
-    list.innerHTML = '<li class="wishes-empty">Jadilah yang pertama memberi ucapan!</li>';
+  for (let attempt = 0; attempt <= WISHES_RETRY_COUNT; attempt++) {
+    if (attempt > 0) {
+      await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
+    }
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), WISHES_TIMEOUT_MS);
+
+    try {
+      const response = await fetch(`${WISHES_API_URL}?t=${Date.now()}`, {
+        method: 'GET',
+        cache: 'no-store',
+        signal: controller.signal,
+      });
+      const result = await response.json();
+
+      if (!result || result.success !== true || !Array.isArray(result.data)) {
+        throw new Error((result && result.message) || 'Invalid wishes response');
+      }
+
+      return result.data;
+    } catch (err) {
+      lastError = err;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  throw lastError;
+}
+
+function sortWishesNewestFirst(wishes) {
+  return [...wishes].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+}
+
+async function submitWish(form, list) {
+  const feedback = document.getElementById('wishesFeedback');
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const nameInput = document.getElementById('wishName');
+  const confirmSelect = document.getElementById('wishConfirm');
+  const messageInput = document.getElementById('wishMessage');
+
+  const name = nameInput.value.trim();
+  const status = confirmSelect.value;
+  const message = messageInput.value.trim();
+
+  if (name.length < WISHES_NAME_MIN_LENGTH) {
+    showWishesFeedback(feedback, 'Nama minimal 2 karakter.', 'error');
+    return;
+  }
+  if (!status) {
+    showWishesFeedback(feedback, 'Silakan pilih konfirmasi kehadiran.', 'error');
+    return;
+  }
+  if (!message) {
+    showWishesFeedback(feedback, 'Ucapan tidak boleh kosong.', 'error');
     return;
   }
 
-  list.innerHTML = wishes.map((w) => `
-    <li>
-      <span class="wish-name">${escapeHtml(w.name)}</span>
-      <span class="wish-status">(${escapeHtml(w.confirmValue)})</span>
-      <p class="wish-message">${escapeHtml(w.message)}</p>
-    </li>
-  `).join('');
+  const payload = {
+    name: name.slice(0, WISHES_NAME_MAX_LENGTH),
+    status,
+    message: message.slice(0, WISHES_MESSAGE_MAX_LENGTH),
+  };
+
+  setSubmitLoading(submitBtn, true);
+  showWishesFeedback(feedback, '', null);
+
+  try {
+    const response = await fetch(WISHES_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+    const result = await response.json();
+
+    if (!result || result.success !== true || !result.data) {
+      throw new Error((result && result.message) || 'Gagal mengirim ucapan');
+    }
+
+    form.reset();
+    prependWish(list, result.data);
+    showWishesFeedback(feedback, 'Ucapan berhasil dikirim. Terima kasih!', 'success');
+  } catch (err) {
+    console.error('Gagal mengirim wishes:', err);
+    showWishesFeedback(feedback, 'Maaf, ucapan belum dapat dikirim. Silakan coba lagi.', 'error');
+  } finally {
+    setSubmitLoading(submitBtn, false);
+  }
 }
 
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+function setSubmitLoading(button, isLoading) {
+  const icon = button.querySelector('i');
+  button.disabled = isLoading;
+  if (icon) {
+    icon.className = isLoading ? 'fa-solid fa-spinner fa-spin' : 'fa-regular fa-paper-plane';
+  }
+}
+
+function showWishesFeedback(el, message, type) {
+  if (!el) return;
+  el.textContent = message;
+  el.classList.remove('is-success', 'is-error');
+  if (type === 'success') el.classList.add('is-success');
+  if (type === 'error') el.classList.add('is-error');
+}
+
+function setWishesLoadingState(list) {
+  list.innerHTML = '';
+  const li = document.createElement('li');
+  li.className = 'wishes-empty';
+  li.textContent = 'Memuat ucapan...';
+  list.appendChild(li);
+}
+
+function renderWishesError(list) {
+  list.innerHTML = '';
+  const li = document.createElement('li');
+  li.className = 'wishes-empty';
+  li.textContent = 'Maaf, ucapan belum dapat dimuat. Silakan coba lagi nanti.';
+  list.appendChild(li);
+}
+
+function renderWishes(list, wishes) {
+  list.innerHTML = '';
+
+  if (!wishes || wishes.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'wishes-empty';
+    li.textContent = 'Jadilah yang pertama memberi ucapan!';
+    list.appendChild(li);
+    return;
+  }
+
+  wishes.forEach((wish) => list.appendChild(buildWishItem(wish)));
+}
+
+function prependWish(list, wish) {
+  const emptyState = list.querySelector('.wishes-empty');
+  if (emptyState) emptyState.remove();
+  list.insertBefore(buildWishItem(wish), list.firstChild);
+}
+
+// Dibangun dengan createElement + textContent (bukan innerHTML) supaya
+// nama/ucapan tamu selalu diperlakukan sebagai plain text (aman dari XSS).
+function buildWishItem(wish) {
+  const li = document.createElement('li');
+
+  const nameEl = document.createElement('span');
+  nameEl.className = 'wish-name';
+  nameEl.textContent = wish.name || '';
+
+  const statusEl = document.createElement('span');
+  statusEl.className = 'wish-status';
+  statusEl.textContent = wish.status ? `(${wish.status})` : '';
+
+  const messageEl = document.createElement('p');
+  messageEl.className = 'wish-message';
+  messageEl.textContent = wish.message || '';
+
+  li.appendChild(nameEl);
+  li.appendChild(statusEl);
+  li.appendChild(messageEl);
+
+  return li;
 }
 
 /* ---------------- Background music toggle ---------------- */
@@ -272,4 +438,21 @@ function initRevealOnScroll() {
   }, { threshold: 0.15 });
 
   sections.forEach((section) => observer.observe(section));
+
+  initGalleryReveal();
+}
+
+/* ---------------- Gallery photos slide in one by one on scroll ---------------- */
+function initGalleryReveal() {
+  const photos = document.querySelectorAll('#galleryGrid img');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+
+  photos.forEach((photo) => observer.observe(photo));
 }
