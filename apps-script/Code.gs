@@ -1,5 +1,5 @@
 /**
- * Backend Wishes untuk undangan Grazinia Tiffani Angkol.
+ * Backend Wishes untuk undangan Grazinia Tiffany Angkol.
  * Deploy sebagai Web App: Execute as "Me", Who has access "Anyone".
  *
  * Struktur sheet (nama sheet = SHEET_NAME di bawah), baris pertama header:

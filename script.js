@@ -1,7 +1,7 @@
 'use strict';
 
 /* ==========================================================================
-   BIRTHDAY MOTION LILAC — Grazinia Tifani Angkol
+   BIRTHDAY MOTION LILAC — Grazinia Tiffany Angkol
    Vanilla JS, no jQuery / no WordPress backend required.
    ========================================================================== */
 
@@ -97,10 +97,10 @@ function initCalendarLink() {
 
   const params = new URLSearchParams({
     action: 'TEMPLATE',
-    text: '5th Birthday & Holy Baptism - Grazinia Tifani Angkol',
+    text: '5th Birthday & Holy Baptism - Grazinia Tiffany Angkol',
     dates: `${toGCalUTC(start)}/${toGCalUTC(end)}`,
     location: 'Kel. Angkol - Tampi',
-    details: 'Mensyukuri Berkat Tuhan dalam Kehidupan Keluarga, Baptisan dan Hari Ulang Tahun ke-5 Grazinia Tifani Angkol.',
+    details: 'Mensyukuri Berkat Tuhan dalam Kehidupan Keluarga, Baptisan dan Hari Ulang Tahun ke-5 Grazinia Tiffany Angkol.',
   });
 
   link.href = `https://www.google.com/calendar/render?${params.toString()}`;
